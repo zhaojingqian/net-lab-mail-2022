@@ -1,0 +1,9 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/zzzgry/Desktop/netlab-maillab'
+gcc -c base64_utils.c -o base64_utils.o
+gcc -c cencode.c -o cencode.o
+gcc -c cdecode.c -o cdecode.o
+gcc send.c base64_utils.o cencode.o cdecode.o base64_utils.h cencode.h cdecode.h -o send
+gcc recv.c -o recv
+make: Leaving directory '/home/zzzgry/Desktop/netlab-maillab'
+ 
