@@ -168,16 +168,15 @@ void send_mail(const char* receiver, const char* subject, const char* msg, const
         send(s_fd, buf, strlen(buf), 0);
         printf("%s", buf);
 
-        char att_buf[MAX_SIZE+1];
+        char att_buf[1000*MAX_SIZE+1];
         FILE *raw_file = fopen(att_path, "rb");
         FILE *base64_file = tmpfile();
         encode_file(raw_file, base64_file);
         fclose(raw_file);
         rewind(base64_file);
-        fread(att_buf, 1, MAX_SIZE, base64_file);
-        att_buf[MAX_SIZE] = '\0';
+        fread(att_buf, 1, 1000*MAX_SIZE, base64_file);
+        att_buf[1000*MAX_SIZE] = '\0';
         fclose(base64_file);
-
 
         send(s_fd, att_buf, strlen(att_buf), 0);
     }
