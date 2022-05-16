@@ -98,6 +98,15 @@ void recv_mail()
     // TODO: Retrieve the first mail and print its content
     strcpy(buf, "retr 1\r\n");
     SendRecv(s_fd, buf);
+
+    r_size = 0;
+    if((r_size = recv(s_fd, buf, MAX_SIZE, 0)) == -1) {
+        perror("error");
+        exit(EXIT_FAILURE);
+    }
+    buf[r_size] = '\0';
+    printf("%s", buf);
+    
     // TODO: Send QUIT command and print server response
     strcpy(buf, "quit\r\n");
     SendRecv(s_fd, buf);

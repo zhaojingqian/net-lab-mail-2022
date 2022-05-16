@@ -40,6 +40,14 @@ void send_mail(const char* receiver, const char* subject, const char* msg, const
     const char* user = "3040976895@qq.com"; // TODO: Specify the user
     const char* pass = "voxzdnveohdcddhf"; // TODO: Specify the password
     const char* from = "3040976895@qq.com"; // TODO: Specify the mail address of the sender
+
+    // const char* host_name = "smtp.qq.com"; // TODO: Specify the mail server domain name
+    // const unsigned short port = 25; // SMTP server port
+    // const char* user = "xxxxxxxxxx@qq.com"; // TODO: Specify the user
+    // const char* pass = "xxxxxxxxxxxxxx"; // TODO: Specify the password
+    // const char* from = "xxxxxxxxxx@qq.com"; // TODO: Specify the mail address of the sender
+
+
     char dest_ip[16]; // Mail server IP address
     int s_fd; // socket file descriptor
     struct hostent *host;
@@ -95,7 +103,6 @@ void send_mail(const char* receiver, const char* subject, const char* msg, const
     strcpy(buf, "AUTH login\r\n");
     SendRecv(s_fd, buf);
 
-
     char* mail_name = encode_str(user);
     strcat(mail_name, "\r\n");
     strcpy(buf, mail_name);
@@ -129,11 +136,12 @@ void send_mail(const char* receiver, const char* subject, const char* msg, const
     strcat(buf, from);  
     strcat(buf, "\r\nTo:");
     strcat(buf, receiver);
-    strcat(buf, "\r\nMIME-Version: 1.0\r\n");    
-    strcat(buf, "Content-Type: multipart/mixed; boundary=qwertyuiopasdfghjklzxcvbnm\r\n");
+    strcat(buf, "\r\nMIME-Version: 1.0\r\n");  
     strcat(buf, "Subject:");
     strcat(buf, subject);   
     strcat(buf, "\r\n");   
+    strcat(buf, "Content-Type: multipart/mixed; boundary=qwertyuiopasdfghjklzxcvbnm\r\n");
+  
     send(s_fd, buf, strlen(buf), 0); 
 
     if(msg) {
