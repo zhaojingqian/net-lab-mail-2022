@@ -10,6 +10,7 @@
 #include "base64_utils.h"
 
 #define MAX_SIZE 4095
+#define ATT_MAX_SIZE 4096000
 
 char buf[MAX_SIZE+1];
 
@@ -176,21 +177,18 @@ void send_mail(const char* receiver, const char* subject, const char* msg, const
         send(s_fd, buf, strlen(buf), 0);
         printf("%s", buf);
 
-        char att_buf[1000*MAX_SIZE+1];
+        char att_buf[ATT_MAX_SIZE];
         FILE *raw_file = fopen(att_path, "rb");
         FILE *base64_file = tmpfile();
         encode_file(raw_file, base64_file);
         fclose(raw_file);
         rewind(base64_file);
-        fread(att_buf, 1, 1000*MAX_SIZE, base64_file);
-        att_buf[1000*MAX_SIZE] = '\0';
+        fread(att_buf, 1, ATT_MAX_SIZE, base64_file);
+        att_buf[ATT_MAX_SIZE-1] = '\0';
         fclose(base64_file);
 
         send(s_fd, att_buf, strlen(att_buf), 0);
     }
-
-    // strcat(buf, msg);
-    // SendRecv(s_fd, buf);
 
     // TODO: Message ends with a single period
     strcpy(buf, end_msg);
